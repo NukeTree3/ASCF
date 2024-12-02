@@ -38,6 +38,23 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.36</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>33.3.1-jre</version>
+        </dependency>
+
+
     </dependencies>
 
     <build>
@@ -61,7 +78,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                com.nuketree3.example.testtoascf/com.nuketree3.example.testtoascf.HelloApplication
+                                com.nuketree3.example.testtoascf/com.nuketree3.example.testtoascf.view.HelloApplication
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>

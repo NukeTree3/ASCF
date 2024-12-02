@@ -1,5 +1,7 @@
-package com.nuketree3.example.testtoascf;
+package com.nuketree3.example.testtoascf.view;
 
+import com.nuketree3.example.testtoascf.model.graph.PointGraphRandom;
+import com.nuketree3.example.testtoascf.model.plane.Plane;
 import javafx.application.Application;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -7,7 +9,6 @@ import javafx.scene.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -31,7 +32,7 @@ public class HelloApplication extends Application {
         Group group1 = new Group();
 
         for (int y = -size; y <= size; y += size / 10) {
-            System.out.println(y);
+            //System.out.println(y);
             Line line = new Line(-100, 0, size, 0);
 
             line.setStroke(gridColor);
@@ -96,8 +97,6 @@ public class HelloApplication extends Application {
             textGroup.setTranslateY(size);
             textGroup.setTranslateX(z);
             textGroup.setTranslateZ(-size-size/8);
-            //textGroup.setRotationAxis(Rotate.Y_AXIS);
-            //textGroup.setRotate(90);
             group.getChildren().add(textGroup);
         }
         return group;
@@ -139,7 +138,7 @@ public class HelloApplication extends Application {
     public void start(Stage stage) throws IOException {
 
 
-        Plane plane = new Plane(100,100);
+        Plane plane = new Plane(new PointGraphRandom());
 
 
         Group group = plane.generatePlane();
@@ -177,10 +176,10 @@ public class HelloApplication extends Application {
                     camera.translateXProperty().set(camera.getTranslateX() - 5);
                     break;
                 case W:
-                    camera.translateYProperty().set(camera.getTranslateY() + 5);
+                    camera.translateYProperty().set(camera.getTranslateY() - 5);
                     break;
                 case S:
-                    camera.translateYProperty().set(camera.getTranslateY() - 5);
+                    camera.translateYProperty().set(camera.getTranslateY() + 5);
                     break;
                 case Q:
                     camera.rotateProperty().set(camera.getRotate()-5);

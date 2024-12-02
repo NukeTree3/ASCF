@@ -1,4 +1,4 @@
-package com.nuketree3.example.testtoascf;
+package com.nuketree3.example.testtoascf.view;
 
 public class Config {
     public final static int HIGTH = 360;
