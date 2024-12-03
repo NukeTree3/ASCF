@@ -7,19 +7,21 @@ import lombok.Setter;
 @Setter
 public class PointGraph extends PointGraphAbstract{
 
-    private static int xMin = 0;
-    private static int xMax = 0;
-    private static int yMin = 0;
-    private static int yMax = 0;
-    private static int zMin = 0;
-    private static int zMax = 0;
-
-
     @Override
     public void setDefoult() {
-        for (int x = xMin; x < xMax; x++) {
-            for (int y = yMin; y < yMax; y++) {
-                this.coordinates[x][y] = 0;
+        for (int x = 0; x < Math.abs(xMax)+Math.abs(xMin); x++) {
+            for (int z = 0; z < Math.abs(zMax)+Math.abs(zMin); z++) {
+                this.coordinates[x][z] = 0;
+            }
+        }
+    }
+
+    public void checkGraph() {
+        for (int x = 0; x < Math.abs(xMax)+Math.abs(xMin); x++) {
+            for (int z = 0; z < Math.abs(zMax)+Math.abs(zMin); z++) {
+                double y = coordinates[x][z];
+                if(y<yMin) yMin= y;
+                if(y>yMax) yMax= y;
             }
         }
     }

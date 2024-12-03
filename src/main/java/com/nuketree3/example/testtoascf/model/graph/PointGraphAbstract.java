@@ -4,12 +4,12 @@ package com.nuketree3.example.testtoascf.model.graph;
 import java.io.Serializable;
 public abstract class PointGraphAbstract implements Serializable {
 
-    private static int xMin;
-    private static int xMax;
-    private static int yMin;
-    private static int yMax;
-    private static int zMin;
-    private static int zMax;
+    protected static int xMin;
+    protected static int xMax;
+    protected static double yMin;
+    protected static double yMax;
+    protected static int zMin;
+    protected static int zMax;
 
     static double[][] coordinates;
 
@@ -36,7 +36,7 @@ public abstract class PointGraphAbstract implements Serializable {
         PointGraphAbstract.xMax = xMax;
     }
 
-    public static int getyMin() {
+    public static double getyMin() {
         return yMin;
     }
 
@@ -44,7 +44,7 @@ public abstract class PointGraphAbstract implements Serializable {
         PointGraphAbstract.yMin = yMin;
     }
 
-    public static int getyMax() {
+    public static double getyMax() {
         return yMax;
     }
 

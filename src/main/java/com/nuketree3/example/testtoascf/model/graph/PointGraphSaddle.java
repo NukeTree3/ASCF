@@ -1,22 +1,31 @@
 package com.nuketree3.example.testtoascf.model.graph;
 
 public class PointGraphSaddle extends PointGraphAbstract {
-    private static int xMin = -100;
-    private static int xMax = 100;
-    private static int yMin = -10;
-    private static int yMax = -100;
-    private static int zMin = -100;
-    private static int zMax = 100;
+
+    public PointGraphSaddle() {
+        xMin = -100;
+        xMax = 100;
+        yMin = -50;
+        yMax = 50;
+        zMin = -100;
+        zMax = 100;
+        coordinates = new double[Math.abs(xMax)+Math.abs(xMin)][Math.abs(zMax)+Math.abs(zMin)];
+        setDefoult();
+    }
 
     @Override
     public void setDefoult() {
+        int xIndex = 0;
         for (int x = xMin; x < xMax; x++) {
-            for (int y = yMin; y < yMax; y++) {
-                int z = (x*y);
-                if(z<zMin) zMin=z;
-                if(z>zMax) zMax=z;
-                coordinates[x][y] = z;
+            int zIndex = 0;
+            for (int z = zMin; z < zMax; z++) {
+                int y = (x*z)/100;
+                if(y<yMin) yMin=y;
+                if(y>yMax) yMax=y;
+                coordinates[xIndex][zIndex] = y;
+                zIndex++;
             }
+            xIndex++;
         }
     }
 }
