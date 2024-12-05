@@ -2,6 +2,7 @@ module com.nuketree3.example.testtoascf {
     requires javafx.controls;
     requires javafx.fxml;
     requires static lombok;
+    requires java.desktop;
 
 
     opens com.nuketree3.example.testtoascf to javafx.fxml;

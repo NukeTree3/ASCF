@@ -4,9 +4,13 @@ import com.nuketree3.example.testtoascf.model.axiscube.AxisCube;
 import com.nuketree3.example.testtoascf.model.graph.*;
 import com.nuketree3.example.testtoascf.model.plane.Plane;
 import javafx.application.Application;
+import javafx.beans.Observable;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.scene.*;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.paint.Color;
@@ -15,8 +19,10 @@ import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class HelloApplication extends Application {
+    private Scene scene;
     private double anchorX;
     private double anchorY;
     private double anchorAngleX = 0;
@@ -27,13 +33,17 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
-        PointGraphAbstract a = new PointGraphTable();
+
+
+
+        PointGraphAbstract a = new PointGraphSambrero();
 
         Plane plane = new Plane(a);
 
         Group group = plane.generatePlane();
         AxisCube axisCube = new AxisCube();
         group.getChildren().add(axisCube.returnCubeWithAxis(a.getxMin(),a.getxMax(),a.getyMin(),a.getyMax(),a.getzMin(),a.getzMax()));
+        //Group camera = new Group();
 
         Camera camera = new PerspectiveCamera(true);
         Scene scene = new Scene(group, Config.WIDTH, Config.HIGTH, true,  SceneAntialiasing.BALANCED);
