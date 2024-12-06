@@ -3,6 +3,9 @@ package com.nuketree3.example.testtoascf.model.graph;
 public class PointGraphSaddle extends PointGraphAbstract {
 
     public PointGraphSaddle() {
+
+        nameGraph = "PointGraphSaddle";
+
         xMin = -100;
         xMax = 100;
         yMin = -50;

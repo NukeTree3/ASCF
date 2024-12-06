@@ -13,10 +13,27 @@ public class Service {
 
     private PointGraphAbstract graph;
     private final FileRead fileRead;
+    private ArrayList<PointGraphAbstract> graphs;
 
     public Service(){
         this.graph = new PointGraph();
         fileRead = new FileRead();
+
+        graphs = new ArrayList<>();
+
+        graphs.add(new PointGraphOneWaves());
+        graphs.add(new PointGraphRandom());
+        graphs.add(new PointGraphSaddle());
+        graphs.add(new PointGraphSambrero());
+        graphs.add(new PointGraphTable());
+        graphs.add(new PointGraphUnknow());
+        graphs.add(new PointGraphWaves());
+
+
+    }
+
+    public ArrayList<PointGraphAbstract> getGraphs(){
+        return graphs;
     }
 
     public ArrayList<String> getFileList(){
@@ -24,20 +41,21 @@ public class Service {
     }
 
     public PointGraphAbstract getPointGraph(int num) {
-        return switch (num) {
-            case 1 -> new PointGraphOneWaves();
-            case 2 -> new PointGraphRandom();
-            case 3 -> new PointGraphSaddle();
-            case 4 -> new PointGraphSambrero();
-            case 5 -> new PointGraphTable();
-            case 6 -> new PointGraphUnknow();
-            case 7 -> new PointGraphWaves();
-            default -> new PointGraph();
-        };
+//        return switch (num) {
+//            case 1 -> new PointGraphOneWaves();
+//            case 2 -> new PointGraphRandom();
+//            case 3 -> new PointGraphSaddle();
+//            case 4 -> new PointGraphSambrero();
+//            case 5 -> new PointGraphTable();
+//            case 6 -> new PointGraphUnknow();
+//            case 7 -> new PointGraphWaves();
+//            default -> new PointGraph();
+//        };
+        return graphs.get(num);
     }
 
-    public void getPointGrahpFile(String fileName) throws FileNotFoundException {
-        this.graph = fileRead.getGraphFile(fileName);
+    public PointGraphAbstract getPointGrahpFile(String fileName) throws FileNotFoundException {
+        return fileRead.getGraphFile(fileName);
     }
 
     public void getPointGraphDefolt(){

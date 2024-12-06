@@ -7,6 +7,12 @@ import lombok.Setter;
 @Setter
 public class PointGraph extends PointGraphAbstract{
 
+    public PointGraph(){
+        nameGraph = "PointGraph";
+    }
+
+
+
     @Override
     public void setDefoult() {
         for (int x = 0; x < Math.abs(xMax)+Math.abs(xMin); x++) {

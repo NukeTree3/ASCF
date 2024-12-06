@@ -3,6 +3,9 @@ package com.nuketree3.example.testtoascf.model.graph;
 public class PointGraphSambrero extends PointGraphAbstract {
 
     public PointGraphSambrero() {
+
+        nameGraph = "PointGraphSambrero";
+
         xMin = -100;
         xMax = 100;
         yMin = -50;

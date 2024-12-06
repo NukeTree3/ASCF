@@ -9,11 +9,11 @@ import java.util.ArrayList;
 
 public class Presenter {
 
-    boolean setka;
-    boolean aproksimaton;
-    double yAxisCor;
-    int typeOfPointGraph;
-    int typeOfServiceGraph;
+//    boolean setka;
+//    boolean aproksimaton;
+//    double yAxisCor;
+//    int typeOfPointGraph;
+//    int typeOfServiceGraph;
 
 
     private final Service service;
@@ -22,20 +22,24 @@ public class Presenter {
         this.service = new Service();
     }
 
-    public void setTypeOfPointGraph(int typeOfPointGraph) {
-        this.typeOfPointGraph = typeOfPointGraph;
-    }
+//    public void setTypeOfPointGraph(int typeOfPointGraph) {
+//        this.typeOfPointGraph = typeOfPointGraph;
+//    }
 
     public ArrayList<String> getFileList(){
         return service.getFileList();
+    }
+
+    public ArrayList<PointGraphAbstract> getGraphs(){
+        return service.getGraphs();
     }
 
     public PointGraphAbstract getPointGraph(int num) {
         return service.getPointGraph(num);
     }
 
-    public void getPointGrahpFile(String fileName) throws FileNotFoundException {
-        service.getPointGrahpFile(fileName);
+    public PointGraphAbstract getPointGrahpFile(String fileName) throws FileNotFoundException {
+        return service.getPointGrahpFile(fileName);
     }
 
     public void getPointGraphDefolt() {

@@ -4,6 +4,9 @@ package com.nuketree3.example.testtoascf.model.graph;
 public class PointGraphTable extends PointGraphAbstract {
 
     public PointGraphTable() {
+
+        nameGraph = "PointGraphTable";
+
         xMin = -100;
         xMax = 100;
         yMin = 50;

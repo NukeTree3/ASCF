@@ -22,7 +22,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class HelloApplication extends Application {
+    PointGraphAbstract a;
     private Scene scene;
+
+    private boolean setka;
+    private boolean aproksimation;
+
     private double anchorX;
     private double anchorY;
     private double anchorAngleX = 0;
@@ -30,19 +35,28 @@ public class HelloApplication extends Application {
     private final DoubleProperty angleX = new SimpleDoubleProperty(0);
     private final DoubleProperty angleY = new SimpleDoubleProperty(0);
 
+    public HelloApplication(PointGraphAbstract graph, boolean setka, boolean aproksimation) {
+        this.a = graph;
+        this.setka = setka;
+        this.aproksimation = aproksimation;
+    }
+
     @Override
     public void start(Stage stage) throws IOException {
 
 
 
 
-        PointGraphAbstract a = new PointGraphSambrero();
+        //PointGraphAbstract a = new PointGraphSambrero();
 
         Plane plane = new Plane(a);
 
         Group group = plane.generatePlane();
-        AxisCube axisCube = new AxisCube();
-        group.getChildren().add(axisCube.returnCubeWithAxis(a.getxMin(),a.getxMax(),a.getyMin(),a.getyMax(),a.getzMin(),a.getzMax()));
+        if(setka) {
+            AxisCube axisCube = new AxisCube();
+            group.getChildren().add(axisCube.returnCubeWithAxis(a.getxMin(),a.getxMax(),a.getyMin(),a.getyMax(),a.getzMin(),a.getzMax()));
+        }
+
         //Group camera = new Group();
 
         Camera camera = new PerspectiveCamera(true);
@@ -87,6 +101,14 @@ public class HelloApplication extends Application {
                 case E:
                     camera.rotateProperty().set(camera.getRotate()+5);
                     break;
+                case M:
+                    SettingWindowToPointGraph  settingWindowToPointGraph = new SettingWindowToPointGraph();
+                    try {
+                        settingWindowToPointGraph.start(stage);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+
             }
         });
 

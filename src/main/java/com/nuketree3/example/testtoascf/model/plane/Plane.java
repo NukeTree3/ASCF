@@ -16,16 +16,12 @@ public class Plane {
 
     public Group generatePlane() {
         System.out.println("Generating plane...");
-        //System.out.println(graph.getxMin()+" "+graph.getxMax());
-
-        PointGraphAbstract.getxMin();
-
-
+        
         Group root = new Group();
         int xIndex = 0;
-        for (int x = PointGraphAbstract.getxMin(); x < PointGraphAbstract.getxMax(); x++) {
+        for (int x = graph.getxMin(); x < graph.getxMax(); x++) {
             int zIndex = 0;
-            for (int z = PointGraphAbstract.getzMin(); z < PointGraphAbstract.getzMax(); z++) {
+            for (int z = graph.getzMin(); z < graph.getzMax(); z++) {
                 Box box = new Box();
                 box.translateXProperty().set(x);
                 box.translateZProperty().set(z);
@@ -37,7 +33,7 @@ public class Plane {
                 //double z = (double) (Math.sin((double) i/10)*10); +
                 //double z = Math.exp(-(i/10.0 * i/10.0 + j/10.0 * j/10.0) /8)*(Math.sin(i/10.0*i/10.0)+Math.cos(j/10.0*j/10.0))*50; +
                 //double z = (double) Math.sin(((double) i /10)*((double) i /10)+((double) j /10)*((double) j /10))/(((double) i /10)*((double) i /10)+((double) j /10)*((double) j /10))*25;
-                double y = PointGraphAbstract.getCoordinates()[xIndex][zIndex];
+                double y = graph.getCoordinates()[xIndex][zIndex];
                 if(y<0){
                     hue = (90.0 * (1.0 - Math.exp(0.03 * y)))+150;
                 }else if(y==0){

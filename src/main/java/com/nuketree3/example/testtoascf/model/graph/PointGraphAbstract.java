@@ -4,68 +4,74 @@ package com.nuketree3.example.testtoascf.model.graph;
 import java.io.Serializable;
 public abstract class PointGraphAbstract implements Serializable {
 
-    protected static int xMin;
-    protected static int xMax;
-    protected static double yMin;
-    protected static double yMax;
-    protected static int zMin;
-    protected static int zMax;
+    protected String nameGraph;
 
-    static double[][] coordinates;
+    protected int xMin;
+    protected int xMax;
+    protected double yMin;
+    protected double yMax;
+    protected int zMin;
+    protected int zMax;
 
-    public static double[][] getCoordinates() {
+    double[][] coordinates;
+
+    public String getNameGraph() {
+        return nameGraph;
+    }
+
+    public double[][] getCoordinates() {
         return coordinates;
     }
     public void setCoordinates(double[][] coordinates) {
         this.coordinates = coordinates;
     }
 
-    public static int getxMin() {
+    public int getxMin() {
         return xMin;
     }
 
-    public static void setxMin(int xMin) {
-        PointGraphAbstract.xMin = xMin;
+    public void setxMin(int xMin) {
+        this.xMin = xMin;
     }
 
-    public static int getxMax() {
+    public int getxMax() {
         return xMax;
     }
 
-    public static void setxMax(int xMax) {
-        PointGraphAbstract.xMax = xMax;
+    public void setxMax(int xMax) {
+        this.xMax = xMax;
     }
 
-    public static double getyMin() {
+    public double getyMin() {
         return yMin;
     }
 
-    public static void setyMin(int yMin) {
-        PointGraphAbstract.yMin = yMin;
+    public void setyMin(int yMin) {
+        this.yMin = yMin;
     }
 
-    public static double getyMax() {
+    public double getyMax() {
         return yMax;
     }
 
-    public static void setyMax(int yMax) {
-        PointGraphAbstract.yMax = yMax;
+    public void setyMax(int yMax) {
+        this.yMax = yMax;
     }
 
-    public static int getzMin() {
+    public int getzMin() {
         return zMin;
     }
 
-    public static void setzMin(int zMin) {
-        PointGraphAbstract.zMin = zMin;
+    public void setzMin(int zMin) {
+        this.zMin = zMin;
     }
 
-    public static int getzMax() {
+    public int getzMax() {
         return zMax;
     }
 
-    public static void setzMax(int zMax) {
-        PointGraphAbstract.zMax = zMax;
+    public void setzMax(int zMax) {
+        this.zMax = zMax;
     }
 
 

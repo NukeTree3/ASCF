@@ -33,13 +33,16 @@ public class FileRead implements FileReadable {
             String line;
             int i = 0;
             while((line = br.readLine()) != null){
-                if(i < 5){
+                if(i <= 5){
+                    //System.out.println(i + " " +line);
                     strings[i] = line;
                 }else{
-                    input.append(line);
+                    input.append(line+" ");
+
                 }
                 i++;
             }
+            //System.out.print("_____"+input.toString());
             strings[6] = input.toString();
             return createGraphFile(strings);
         } catch (IOException e) {
@@ -53,12 +56,13 @@ public class FileRead implements FileReadable {
     public PointGraphAbstract createGraphFile(String[] strings) {
         PointGraph graph = new PointGraph();
         graph.setxMin(Integer.parseInt(strings[0]));
+        //System.out.println();
         graph.setxMax(Integer.parseInt(strings[1]));
         graph.setyMin(Integer.parseInt(strings[2]));
         graph.setyMax(Integer.parseInt(strings[3]));
         graph.setzMin(Integer.parseInt(strings[4]));
         graph.setzMax(Integer.parseInt(strings[5]));
-        String[] yValues = strings[7].split(" ");
+        String[] yValues = strings[6].split(" ");
         int n = 0;
         double[][] arr = new double[Math.abs(Integer.parseInt(strings[0])) + Math.abs(Integer.parseInt(strings[1]))][Math.abs(Integer.parseInt(strings[4])) + Math.abs(Integer.parseInt(strings[5]))];
         for (int i = 0; i < arr.length; i++) {

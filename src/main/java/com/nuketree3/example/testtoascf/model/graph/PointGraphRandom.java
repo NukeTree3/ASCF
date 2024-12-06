@@ -6,6 +6,9 @@ public class PointGraphRandom extends PointGraphAbstract {
 
 
     public PointGraphRandom() {
+
+        nameGraph = "PointGraphRandom";
+
         xMin = -100;
         xMax = 100;
         yMin = -50;

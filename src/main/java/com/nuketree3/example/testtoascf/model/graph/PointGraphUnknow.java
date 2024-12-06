@@ -3,6 +3,9 @@ package com.nuketree3.example.testtoascf.model.graph;
 public class PointGraphUnknow extends PointGraphAbstract {
 
     public PointGraphUnknow() {
+
+        nameGraph = "PointGraphUnknow";
+
         xMin = -100;
         xMax = 100;
         yMin = 50;

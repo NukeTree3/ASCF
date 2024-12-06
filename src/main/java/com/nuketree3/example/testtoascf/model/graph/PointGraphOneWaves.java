@@ -3,6 +3,9 @@ package com.nuketree3.example.testtoascf.model.graph;
 public class PointGraphOneWaves extends PointGraphAbstract {
 
     public PointGraphOneWaves() {
+
+        nameGraph = "PointGraphOneWaves";
+
         xMin = -100;
         xMax = 100;
         yMin = 50;
