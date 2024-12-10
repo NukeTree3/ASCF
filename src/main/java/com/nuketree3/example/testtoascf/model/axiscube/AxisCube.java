@@ -9,37 +9,36 @@ import javafx.scene.transform.Rotate;
 
 public class AxisCube {
 
-    public Group returnCubeWithAxis(int xMin, int xMax, double yMin, double yMax, int zMin, int zMax) {
+    public Group returnCubeWithAxis(double xMin, double xMax, double yMin, double yMax, double zMin, double zMax) {
         Group group = new Group();
         group.getChildren().add(returnCube(xMin, xMax, yMin, yMax, zMin, zMax));
-        group.getChildren().add(textToAllAxis(xMin, xMax, yMin, yMax, zMin, zMax));
+        //group.getChildren().add(textToAllAxis(xMin, xMax, yMin, yMax, zMin, zMax));
         return group;
     }
 
     public Group createSetka(double minAxisOne, double maxAxisOne, double minAxisTwo, double maxAxisTwo) {
-        double zTranslate = 0;
+        //double zTranslate = 0;
         double lineWidth = 1.0;
         Color gridColor = Color.WHITE;
         Group group1 = new Group();
 
-        for (double y =  minAxisOne; y <= maxAxisOne; y += (Math.abs(minAxisOne) + Math.abs(maxAxisOne)) / 10) {
-            Line line = new Line(minAxisTwo, 0, maxAxisTwo, 0);
-
+        for (double y =  minAxisOne; y <= maxAxisOne; y += (Math.abs(maxAxisOne - minAxisOne)) / 10) {
+            Line line = new Line(minAxisTwo, y, maxAxisTwo, y);
             line.setStroke(gridColor);
             line.setFill(gridColor);
-            line.setTranslateY(y);
-            line.setTranslateZ(zTranslate);
+            //line.setTranslateY(y);
+            //line.setTranslateZ(zTranslate);
             line.setStrokeWidth(lineWidth);
 
             group1.getChildren().add(line);
         }
 
-        for (double x = minAxisTwo; x <= maxAxisTwo; x += (Math.abs(minAxisTwo) + Math.abs(maxAxisTwo)) / 10) {
-            Line line = new Line(0, minAxisOne, 0, maxAxisOne);
+        for (double x = minAxisTwo; x <= maxAxisTwo; x += (Math.abs(minAxisTwo - maxAxisTwo)) / 10) {
+            Line line = new Line(x, minAxisOne, x, maxAxisOne);
             line.setStroke(gridColor);
             line.setFill(gridColor);
-            line.setTranslateX(x);
-            line.setTranslateZ(zTranslate);
+//            line.setTranslateX(x);
+            //line.setTranslateZ(zTranslate);
             line.setStrokeWidth(lineWidth);
 
             group1.getChildren().add(line);
@@ -48,7 +47,7 @@ public class AxisCube {
         return group1;
     }
 
-    public Group createText(int xMin, int xMax, double yMin, double yMax, int zMin, int zMax){
+    public Group createText(double xMin, double xMax, double yMin, double yMax, double zMin, double zMax){
         Group group = new Group();
 
         double tempABS = ((Math.abs(yMax) + Math.abs(yMin)) / 10);
@@ -97,32 +96,56 @@ public class AxisCube {
         return group;
     }
 
-    public Group textToAllAxis(int xMin, int xMax, double yMin, double yMax, int zMin, int zMax){
+    public Group textToAllAxis(double xMin, double xMax, double yMin, double yMax, double zMin, double zMax){
         Group group = new Group();
         group.getChildren().add(createText(xMin, xMax, yMin, yMax, zMin, zMax));
         return group;
     }
 
-    public Group returnCube(int xMin, int xMax, double yMin, double yMax, int zMin, int zMax){
+    public Group returnCube(double xMin, double xMax, double yMin, double yMax, double zMin, double zMax){
         Group group = new Group();
 
-        Group groupXY = createSetka(yMin, yMax, zMin, zMax);
-        groupXY.setRotationAxis(Rotate.Y_AXIS);
-        groupXY.setRotate(90);
-        groupXY.setTranslateX((Math.abs(xMin)+Math.abs(xMax))/2);
-        group.getChildren().add(groupXY);
+        Group groupYZ = createSetka(yMin, yMax, zMin, zMax);
+        groupYZ.setRotationAxis(Rotate.Y_AXIS);
+        groupYZ.setRotate(90);
+//        if(xMin<0){
+        //groupYZ.setTranslateX(xMin);
+
+        groupYZ.setTranslateX(-(zMax - zMin)/2);
+        groupYZ.setTranslateZ(Math.abs(zMax + zMin)/2);
+//        }else{
+//            groupYZ.setTranslateX(xMax/2);
+//        }
+
+        group.getChildren().add(groupYZ);
 
         Group groupXZ = createSetka(zMin, zMax, xMin, xMax);
         groupXZ.setRotationAxis(Rotate.X_AXIS);
-        groupXZ.setTranslateY((Math.abs(yMin)+Math.abs(yMax))/2);
         groupXZ.setRotate(90);
+        groupXZ.setTranslateZ(Math.abs(zMax + zMin)/2);
+        groupXZ.setTranslateY(yMin-Math.abs(zMax + zMin)/2);
         group.getChildren().add(groupXZ);
 
-        Group groupZY = createSetka(xMin, xMax, yMin, yMax);
-        groupZY.setRotationAxis(Rotate.Z_AXIS);
-        groupZY.setTranslateZ((Math.abs(zMin)+Math.abs(zMin))/2);
-        groupZY.setRotate(90);
-        group.getChildren().add(groupZY);
+        Group groupXY = createSetka(yMin, yMax, xMin, xMax);
+//        groupZY.setRotationAxis(Rotate.Z_AXIS);
+//        groupZY.setRotate(90);
+//        if(zMin<0){
+            groupXY.setTranslateZ(zMin);
+//        }else {
+//            groupXY.setTranslateZ(zMax/2);
+//        }
+
+        group.getChildren().add(groupXY);
+
+
+//        Line line = new Line(50, 0, 50, 150);
+//        line.setStroke(Color.BLACK);
+//        line.setFill(Color.BLACK);
+////            line.setTranslateX(x);
+//        //line.setTranslateZ(zTranslate);
+//        line.setStrokeWidth(1.0);
+//
+//        group.getChildren().add(line);
 
         return group;
     }

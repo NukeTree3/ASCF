@@ -8,8 +8,8 @@ public class PointGraphSambrero extends PointGraphAbstract {
 
         xMin = -100;
         xMax = 100;
-        yMin = -50;
-        yMax = 50;
+        yMin = 50;
+        yMax = -50;
         zMin = -100;
         zMax = 100;
         coordinates = new double[Math.abs(xMax)+Math.abs(xMin)][Math.abs(zMax)+Math.abs(zMin)];

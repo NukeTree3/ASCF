@@ -46,11 +46,14 @@ public class Presenter {
         service.getPointGraphDefolt();
     }
 
-    public Group getAxisCube(int xMin, int xMax, double yMin, double yMax, int zMin, int zMax){
+    public Group getAxisCube(double xMin, double xMax, double yMin, double yMax, double zMin, double zMax){
         return service.getAxisCube(xMin, xMax, yMin, yMax, zMin, zMax);
     }
 
-    public Group get3dGraph(int num){
-        return service.get3dGraph(getPointGraph(num));
+    public Group get3dGraph(PointGraphAbstract pointGraph, double xParametr, double yParametr, double zParametr){
+        return service.get3dGraph(pointGraph, xParametr, yParametr, zParametr);
+    }
+    public Group get3dGraphWithSmoothMedian(PointGraphAbstract pointGraph, int smoothMedianParametr, double xParametr, double yParametr, double zParametr){
+        return service.get3dGraphWithSmoothMedian(smoothMedianParametr,pointGraph,xParametr,yParametr,zParametr);
     }
 }

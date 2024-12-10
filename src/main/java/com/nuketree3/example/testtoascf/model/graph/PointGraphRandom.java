@@ -25,7 +25,7 @@ public class PointGraphRandom extends PointGraphAbstract {
         for (int x = xMin; x < xMax; x++) {
             int zIndex = 0;
             for (int z = zMin; z < zMax; z++) {
-                int y = rand.nextInt(-100,100);
+                int y = rand.nextInt(-10000,10000);
                 if(y<yMin) yMin=y;
                 if(y>yMax) yMax=y;
                 coordinates[xIndex][zIndex] = y;

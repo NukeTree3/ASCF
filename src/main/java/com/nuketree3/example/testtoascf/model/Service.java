@@ -41,16 +41,6 @@ public class Service {
     }
 
     public PointGraphAbstract getPointGraph(int num) {
-//        return switch (num) {
-//            case 1 -> new PointGraphOneWaves();
-//            case 2 -> new PointGraphRandom();
-//            case 3 -> new PointGraphSaddle();
-//            case 4 -> new PointGraphSambrero();
-//            case 5 -> new PointGraphTable();
-//            case 6 -> new PointGraphUnknow();
-//            case 7 -> new PointGraphWaves();
-//            default -> new PointGraph();
-//        };
         return graphs.get(num);
     }
 
@@ -62,13 +52,18 @@ public class Service {
         this.graph.setDefoult();
     }
 
-    public Group getAxisCube(int xMin, int xMax, double yMin, double yMax, int zMin, int zMax){
+    public Group getAxisCube(double xMin, double xMax, double yMin, double yMax, double zMin, double zMax){
         AxisCube axisCube = new AxisCube();
         return axisCube.returnCubeWithAxis(xMin, xMax, yMin, yMax, zMin, zMax);
     }
 
-    public Group get3dGraph(PointGraphAbstract graph){
+    public Group get3dGraph(PointGraphAbstract graph, double xParametr, double yParametr, double zParametr){
         Plane plane = new Plane(graph);
-        return plane.generatePlane();
+        return plane.generatePlane(xParametr, yParametr, zParametr);
+    }
+
+    public Group get3dGraphWithSmoothMedian(int smoothMedianParametr, PointGraphAbstract graph, double xParametr, double yParametr, double zParametr){
+        Plane plane = new Plane(graph);
+        return plane.getPlaneWithSmoothMedian(smoothMedianParametr,xParametr, yParametr, zParametr);
     }
 }

@@ -2,27 +2,37 @@ package com.nuketree3.example.testtoascf.view;
 
 import com.nuketree3.example.testtoascf.model.graph.PointGraphAbstract;
 import com.nuketree3.example.testtoascf.presenter.Presenter;
+
 import javafx.application.Application;
 import javafx.collections.FXCollections;
+
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+
 import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+
 import java.util.ArrayList;
 
 public class SettingWindowToPointGraph extends Application {
 
-    Presenter presenter = new Presenter();
+    private Presenter presenter;
 
-    boolean setka;
-    boolean aproksimation;
-    double yAxisCor;
-    PointGraphAbstract typeOfPointGraph;
-    //int typeOfServiceGraph;
+    private boolean setka;
+    private boolean aproksimation;
+
+    private PointGraphAbstract typeOfPointGraph;
+
+    private int smoothMedianParametr;
+    private double xParametr = 1;
+    private double yParametr = 1;
+    private double zParametr = 1;
+
+    private String errorMessage;
 
     private double yMin;
     private double yMax;
@@ -34,120 +44,247 @@ public class SettingWindowToPointGraph extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Group group = new Group();
+        presenter = new Presenter();
 
 
         ArrayList<String> fileList = presenter.getFileList();
+        fileList.add("...");
 
         ArrayList<String> list = new ArrayList<>();
         list.addFirst("Загрузка из файла");
 
         for(PointGraphAbstract graph : presenter.getGraphs()) {
-            //System.out.println(graph.getNameGraph());
             list.add(graph.getNameGraph());
         }
 
-        Text text = new Text();
-        text.setText("Модели");
-        Slider slider = new Slider();
-        slider.setVisible(false);
-        slider.setShowTickLabels(true);
-        slider.setShowTickMarks(true);
-        //slider.setValue(50);
-        slider.setLayoutX((double) Config.WIDTH/20);
-        slider.setLayoutY((double) Config.HIGTH/2.5);
-        text.setLayoutX((double) Config.WIDTH /20);
-        text.setLayoutY((double) Config.HIGTH/10-5);
+        TextField xAxisTextField = axisTextField((double) Config.WIDTH/20,(double) Config.HIGTH/2);
+        TextField yAxisTextField = axisTextField((double) Config.WIDTH/20+200,(double) Config.HIGTH/2);
+        TextField zAxisTextField = axisTextField((double) Config.WIDTH/20+400,(double) Config.HIGTH/2);
 
-        //yAxisCor = slider.valueProperty().doubleValue();
+        Text xAxisText = axisText((double) Config.WIDTH/20,(double) Config.HIGTH/2-10,0.0);
+        Text yAxisText = axisText((double) Config.WIDTH/20+200,(double) Config.HIGTH/2-10,0.0);
+        Text zAxisText = axisText((double) Config.WIDTH/20+400,(double) Config.HIGTH/2-10,0.0);
+
+        xAxisTextField.textProperty().addListener((observable) -> {
+            try {
+                xParametr = Double.parseDouble(xAxisTextField.getText());
+            } catch (NumberFormatException e) {
+                xParametr = 1;
+            }
+            System.out.println(xMax + " " + xMin);
+            xAxisText.setText((Math.abs(xMax)+Math.abs(xMin))*xParametr+"");
+        });
+        yAxisTextField.textProperty().addListener((observable) -> {
+            try {
+                yParametr = Double.parseDouble(yAxisTextField.getText());
+            } catch (NumberFormatException e) {
+                yParametr = 1;
+            }
+            yAxisText.setText((Math.abs(yMax)+Math.abs(yMin))*yParametr+"");
+        });
+        zAxisTextField.textProperty().addListener((observable) -> {
+            try {
+                zParametr = Double.parseDouble(zAxisTextField.getText());
+            } catch (NumberFormatException e) {
+                zParametr = 1;
+            }
+            zAxisText.setText((Math.abs(zMax)+Math.abs(zMin))*zParametr+"");
+        });
 
 
-        Button button = new Button("Accept");
+
+
+        Text modelText = new Text();
+        modelText.setText("Модели");
+        modelText.setLayoutX((double) Config.WIDTH /20);
+        modelText.setLayoutY((double) Config.HIGTH/10-5);
+
+
+        Text axisSetkaText = new Text();
+        axisSetkaText.setText("Отображение сетки");
+        axisSetkaText.setLayoutX((double) Config.WIDTH /20+20);
+        axisSetkaText.setLayoutY((double) Config.HIGTH/4.3);
+
+        Text medianParametrText = new Text();
+        medianParametrText.setLayoutX((double) Config.WIDTH /20+170);
+        medianParametrText.setLayoutY((double) Config.HIGTH/3.1);
+
+        Slider medianParametrSlider = new Slider();
+        medianParametrSlider.setVisible(false);
+        medianParametrSlider.setMin(1);
+        medianParametrSlider.setMax(50);
+        medianParametrSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            smoothMedianParametr = (int) Math.ceil((Double) newValue);
+            medianParametrText.setText(String.valueOf(smoothMedianParametr));
+        });
+        medianParametrSlider.setLayoutX((double) Config.WIDTH/20+200);
+        medianParametrSlider.setLayoutY((double) Config.HIGTH/3.5);
+
+
+        Text aproksimatonFText = new Text();
+        aproksimatonFText.setText("Функция апроксимации");
+        aproksimatonFText.setLayoutX((double) Config.WIDTH /20+20);
+        aproksimatonFText.setLayoutY((double) Config.HIGTH/3.1);
+
+        Text axisParametrChanges = new Text();
+        axisParametrChanges.setText("Изменение параметров оссей");
+        axisParametrChanges.setLayoutX((double) Config.WIDTH /20+20);
+        axisParametrChanges.setLayoutY((double) Config.HIGTH/2.45);
+
+
+
+        CheckBox axisSetkaCheckBox = new CheckBox();
+        axisSetkaCheckBox.selectedProperty().addListener(observable -> {setka = axisSetkaCheckBox.isSelected();});
+        axisSetkaCheckBox.setLayoutX((double) Config.WIDTH/20);
+        axisSetkaCheckBox.setLayoutY((double) Config.HIGTH/5);
+
+        CheckBox aproksimationFCheckBox = new CheckBox();
+        aproksimationFCheckBox.selectedProperty().addListener(observable -> {
+            aproksimation = aproksimationFCheckBox.isSelected();
+            medianParametrSlider.setVisible(aproksimationFCheckBox.isSelected());
+            medianParametrText.setText("");
+            if(!aproksimationFCheckBox.isSelected()) {
+                smoothMedianParametr = 1;
+            }
+
+        });
+        aproksimationFCheckBox.setLayoutX((double) Config.WIDTH/20);
+        aproksimationFCheckBox.setLayoutY((double) Config.HIGTH/3.5);
+
+
+        CheckBox axisParametrChangesCheckBox = new CheckBox();
+        axisParametrChangesCheckBox.selectedProperty().addListener(observable -> {
+            xAxisText.setVisible(axisParametrChangesCheckBox.isSelected());
+            yAxisText.setVisible(axisParametrChangesCheckBox.isSelected());
+            zAxisText.setVisible(axisParametrChangesCheckBox.isSelected());
+
+            xAxisTextField.setVisible(axisParametrChangesCheckBox.isSelected());
+            yAxisTextField.setVisible(axisParametrChangesCheckBox.isSelected());
+            zAxisTextField.setVisible(axisParametrChangesCheckBox.isSelected());
+        });
+        axisParametrChangesCheckBox.setLayoutX((double) Config.WIDTH/20);
+        axisParametrChangesCheckBox.setLayoutY((double) Config.HIGTH/2.7);
+
+
+
+
+
+
+        Text fileText = new Text();
+        fileText.setText("Файлы");
+        fileText.setVisible(false);
+        fileText.setLayoutX((double) Config.WIDTH - ((double) Config.WIDTH /3));
+        fileText.setLayoutY((double) Config.HIGTH/10-5);
+
+
+        Text errorText = new Text();
+        errorText.setLayoutX((double) Config.WIDTH - ((double) Config.WIDTH /4));
+        errorText.setLayoutY((double) Config.HIGTH /1.4);
+        errorText.setFill(Color.RED);
+        errorText.setVisible(false);
+        errorText.setText("Ошибка компиляции модели");
+
+        Button button = new Button("Готово");
         button.setOnAction(e -> {
             try {
-                yAxisCor = slider.getValue();
+                if(errorMessage==null){
+                    System.out.println(xAxisTextField.getText()+ " "+ yAxisTextField.getText() + " " + zAxisTextField.getText());
+                }
                 change(stage);
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
+            } catch (Exception ex) {
+                try {
+                    errorCreatePointGraph(errorText);
+                } catch (IOException exc) {
+                    throw new RuntimeException(exc);
+                }
             }
         });
         button.setLayoutX((double) Config.WIDTH - ((double) Config.WIDTH /6));
         button.setLayoutY((double) Config.HIGTH /1.3);
 
 
-        CheckBox cb1 = new CheckBox();
-        cb1.selectedProperty().addListener(observable -> {setka = cb1.isSelected();});
-        cb1.setLayoutX((double) Config.WIDTH/20);
-        cb1.setLayoutY((double) Config.HIGTH/5);
-
-        Text text1 = new Text();
-        text1.setText("Отображение сетки");
-        text1.setLayoutX((double) Config.WIDTH /20+20);
-        text1.setLayoutY((double) Config.HIGTH/4.3);
-
-        CheckBox cb2 = new CheckBox();
-        cb2.selectedProperty().addListener(observable -> {aproksimation = cb2.isSelected();});
-        cb2.setLayoutX((double) Config.WIDTH/20);
-        cb2.setLayoutY((double) Config.HIGTH/3.5);
-
-        Text text2 = new Text();
-        text2.setText("Функция апроксимации");
-        text2.setLayoutX((double) Config.WIDTH /20+20);
-        text2.setLayoutY((double) Config.HIGTH/3.1);
-
-
-
-
-
-        Text text3 = new Text();
-        text3.setText("Файлы");
-        text3.setVisible(false);
-        text3.setLayoutX((double) Config.WIDTH - ((double) Config.WIDTH /3));
-        text3.setLayoutY((double) Config.HIGTH/10-5);
 
 
 
         group.getChildren().add(button);
-        group.getChildren().add(cb1);
-        group.getChildren().add(cb2);
-        group.getChildren().add(slider);
-        group.getChildren().add(text);
-        group.getChildren().add(text1);
-        group.getChildren().add(text2);
-        group.getChildren().add(text3);
+        group.getChildren().add(axisSetkaCheckBox);
+        group.getChildren().add(aproksimationFCheckBox);
+        group.getChildren().add(axisParametrChangesCheckBox);
+
+
+        group.getChildren().add(xAxisTextField);
+        group.getChildren().add(yAxisTextField);
+        group.getChildren().add(zAxisTextField);
+
+        group.getChildren().add(xAxisText);
+        group.getChildren().add(yAxisText);
+        group.getChildren().add(zAxisText);
+
+
+        group.getChildren().add(medianParametrSlider);
+
+        group.getChildren().add(modelText);
+        group.getChildren().add(axisSetkaText);
+        group.getChildren().add(aproksimatonFText);
+        group.getChildren().add(fileText);
+        group.getChildren().add(axisParametrChanges);
+        group.getChildren().add(medianParametrText);
+        group.getChildren().add(errorText);
 
         ChoiceBox<String> pointGraphChoiceBoxFile = new ChoiceBox<>(FXCollections.observableArrayList(fileList));
         pointGraphChoiceBoxFile.setVisible(false);
         pointGraphChoiceBoxFile.setLayoutX((double) Config.WIDTH - ((double) Config.WIDTH /3));
         pointGraphChoiceBoxFile.setLayoutY((double) Config.HIGTH /10);
+
         pointGraphChoiceBoxFile.getSelectionModel().selectedIndexProperty().addListener((observableValue, oldV, newV) -> {
-            System.out.println("old ))" + oldV);
-            System.out.println("new++ " + newV);
-            //PointGraphAbstract pointGraph = presenter.getPointGraph((Integer) newV);
-            try {
-                this.typeOfPointGraph = presenter.getPointGrahpFile(fileList.get((Integer) newV));
-            } catch (FileNotFoundException e) {
-                throw new RuntimeException(e);
+
+
+            if(newV.equals(fileList.size()-1)){
+                xAxisText.setText("0.0");
+                yAxisText.setText("0.0");
+                zAxisText.setText("0.0");
+                typeOfPointGraph = null;
+            }else {
+                try {
+                    this.typeOfPointGraph = presenter.getPointGrahpFile(fileList.get((Integer) newV));
+
+                    this.xMin = typeOfPointGraph.getxMin();
+                    this.xMax = typeOfPointGraph.getxMax();
+                    this.yMin = typeOfPointGraph.getyMin();
+                    this.yMax = typeOfPointGraph.getyMax();
+                    this.zMin = typeOfPointGraph.getzMin();
+                    this.zMax = typeOfPointGraph.getzMax();
+
+                    xAxisText.setText(Math.abs(xMax)+Math.abs(xMin)+"");
+                    yAxisText.setText(Math.abs(yMax)+Math.abs(yMin)+"");
+                    zAxisText.setText(Math.abs(zMax)+Math.abs(zMin)+"");
+
+
+                } catch (FileNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
             }
-//            this.xMin = pointGraph.getxMin();
-//            this.xMax = pointGraph.getxMax();
-//            this.yMin = pointGraph.getyMin();
-//            this.yMax = pointGraph.getyMax();
-//            this.zMin = pointGraph.getzMin();
-//            this.zMax = pointGraph.getzMax();
         });
+
 
         ChoiceBox<String> pointGraphChoiceBox = new ChoiceBox<>(FXCollections.observableArrayList(list));
         pointGraphChoiceBox.setLayoutX((double) Config.WIDTH /20);
         pointGraphChoiceBox.setLayoutY((double) Config.HIGTH /10);
         pointGraphChoiceBox.getSelectionModel().selectedIndexProperty().addListener((observableValue, oldV, newV) -> {
-            System.out.println("old " + oldV);
-            System.out.println("new " + newV);
             if(newV.equals(0)){
+
                 pointGraphChoiceBoxFile.setVisible(true);
-                text3.setVisible(true);
+                pointGraphChoiceBoxFile.setValue(fileList.getLast());
+                fileText.setVisible(true);
+                typeOfPointGraph = null;
+                xAxisText.setText("0.0");
+                yAxisText.setText("0.0");
+                zAxisText.setText("0.0");
+
             }else {
+
                 pointGraphChoiceBoxFile.setVisible(false);
-                text3.setVisible(false);
+                fileText.setVisible(false);
                 this.typeOfPointGraph = presenter.getGraphs().get((Integer) newV-1);
 
                 this.xMin = typeOfPointGraph.getxMin();
@@ -156,17 +293,12 @@ public class SettingWindowToPointGraph extends Application {
                 this.yMax = typeOfPointGraph.getyMax();
                 this.zMin = typeOfPointGraph.getzMin();
                 this.zMax = typeOfPointGraph.getzMax();
-                slider.setMin(yMin);
-                slider.setMax(yMax);
-                slider.setVisible(true);
+
+                xAxisText.setText(Math.abs(xMax)+Math.abs(xMin)+"");
+                yAxisText.setText(Math.abs(yMax)+Math.abs(yMin)+"");
+                zAxisText.setText(Math.abs(zMax)+Math.abs(zMin)+"");
+
             }
-
-
-            //PointGraphAbstract pointGraph = presenter.getPointGraph((Integer) newV);
-
-
-            //this.typeOfServiceGraph = (int) newV;
-
         });
 
         group.getChildren().addAll(pointGraphChoiceBox);
@@ -177,19 +309,37 @@ public class SettingWindowToPointGraph extends Application {
         scene.setFill(Color.SILVER);
 
 
-        stage.setTitle("Hello!");
+        stage.setTitle("Настройки");
         stage.setScene(scene);
         stage.show();
     }
 
     public void change(Stage stage) throws IOException {
-        System.out.println(setka+" "+aproksimation+" "+yAxisCor+" "+typeOfPointGraph);
-        HelloApplication application = new HelloApplication(typeOfPointGraph, setka, aproksimation);
+        HelloApplication application = new HelloApplication(typeOfPointGraph, setka, aproksimation,smoothMedianParametr,xParametr,yParametr,zParametr);
+        System.out.println(xMin+" "+xMax+" "+xParametr+" "+yMin+" "+yMax+" "+yParametr+" "+zMin+" "+zMax+" "+yParametr);
         application.start(stage);
 
     }
 
-    public void errorCreatePointGraph() throws IOException {
+    public void errorCreatePointGraph(Text errorText) throws IOException {
+        errorText.setVisible(true);
 
+    }
+
+    private TextField axisTextField(double xPositon, double yPositon) {
+        TextField textField = new TextField();
+        textField.setLayoutX(xPositon);
+        textField.setLayoutY(yPositon);
+        textField.setVisible(false);
+        return textField;
+    }
+
+    private Text axisText(double xPositon, double yPositon, double value) {
+        Text axisText = new Text();
+        axisText.setLayoutX(xPositon);
+        axisText.setLayoutY(yPositon);
+        axisText.setText(value+"");
+        axisText.setVisible(false);
+        return axisText;
     }
 }
