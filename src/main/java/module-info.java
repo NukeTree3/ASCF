@@ -6,7 +6,6 @@ module com.nuketree3.example.testtoascf {
 
 
     opens com.nuketree3.example.testtoascf to javafx.fxml;
-    exports com.nuketree3.example.testtoascf;
     exports com.nuketree3.example.testtoascf.model.graph;
     opens com.nuketree3.example.testtoascf.model.graph to javafx.fxml;
     exports com.nuketree3.example.testtoascf.model.plane;

@@ -28,8 +28,6 @@ public class Service {
         graphs.add(new PointGraphTable());
         graphs.add(new PointGraphUnknow());
         graphs.add(new PointGraphWaves());
-
-
     }
 
     public ArrayList<PointGraphAbstract> getGraphs(){
@@ -40,9 +38,6 @@ public class Service {
         return fileRead.getFileList();
     }
 
-    public PointGraphAbstract getPointGraph(int num) {
-        return graphs.get(num);
-    }
 
     public PointGraphAbstract getPointGrahpFile(String fileName) throws FileNotFoundException {
         return fileRead.getGraphFile(fileName);

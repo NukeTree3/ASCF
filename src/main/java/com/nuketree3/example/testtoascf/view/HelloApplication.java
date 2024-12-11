@@ -1,8 +1,6 @@
 package com.nuketree3.example.testtoascf.view;
 
-import com.nuketree3.example.testtoascf.model.axiscube.AxisCube;
 import com.nuketree3.example.testtoascf.model.graph.*;
-import com.nuketree3.example.testtoascf.model.plane.Plane;
 
 import com.nuketree3.example.testtoascf.presenter.Presenter;
 import javafx.application.Application;
@@ -23,7 +21,6 @@ import java.io.IOException;
 public class HelloApplication extends Application {
     private final PointGraphAbstract pointGraph;
     private Presenter presenter;
-    private Scene scene;
 
     private final boolean setka;
     private final boolean aproksimation;
@@ -58,8 +55,6 @@ public class HelloApplication extends Application {
 
         presenter.get3dGraph(pointGraph, xParameter, yParameter, zParameter);
 
-//        AxisCube axisCube = new AxisCube();
-//        Group group = axisCube.returnCube(-150,100,-100,100,-100,100);
 
         Group group;
 
@@ -73,8 +68,6 @@ public class HelloApplication extends Application {
         if(setka) {
             System.out.println(pointGraph.getxMin()*xParameter +" "+ pointGraph.getxMax()*xParameter +" "+ pointGraph.getyMin()*yParameter +" "+ pointGraph.getyMax()*yParameter +" "+ pointGraph.getzMin()*zParameter +" "+ pointGraph.getzMax()*zParameter);
             group.getChildren().add(presenter.getAxisCube(pointGraph.getxMin()*xParameter, pointGraph.getxMax()*xParameter, pointGraph.getyMin()*yParameter, pointGraph.getyMax()*yParameter, pointGraph.getzMin()*zParameter, pointGraph.getzMax()*zParameter));
-//            AxisCube axisCube = new AxisCube();
-//            group.getChildren().add(axisCube.returnCubeWithAxis(pointGraph.getxMin(), pointGraph.getxMax(), pointGraph.getyMin(), pointGraph.getyMax(), pointGraph.getzMin(), pointGraph.getzMax()));
         }
 
 
@@ -161,10 +154,5 @@ public class HelloApplication extends Application {
             double movemetn = event.getDeltaY();
             group.translateZProperty().set(group.getTranslateZ() - movemetn);
         });
-    }
-
-
-    public static void main(String[] args) {
-        launch();
     }
 }
