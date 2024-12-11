@@ -1,5 +1,6 @@
 package com.nuketree3.example.testtoascf.view;
 
+import com.nuketree3.example.testtoascf.model.emuns.PointGraphType;
 import com.nuketree3.example.testtoascf.model.graph.PointGraphAbstract;
 import com.nuketree3.example.testtoascf.presenter.Presenter;
 
@@ -23,7 +24,6 @@ public class SettingWindowToPointGraph extends Application {
     private Presenter presenter;
 
     private boolean setka;
-    private boolean aproksimation;
 
     private PointGraphAbstract typeOfPointGraph;
 
@@ -53,17 +53,17 @@ public class SettingWindowToPointGraph extends Application {
         ArrayList<String> list = new ArrayList<>();
         list.addFirst("Загрузка из файла");
 
-        for(PointGraphAbstract graph : presenter.getGraphs()) {
-            list.add(graph.getNameGraph());
+        for(PointGraphType graph : presenter.getGraphs()) {
+            list.add(String.valueOf(graph));
         }
 
-        TextField xAxisTextField = axisTextField((double) Config.WIDTH/20,(double) Config.HIGTH/2);
-        TextField yAxisTextField = axisTextField((double) Config.WIDTH/20+200,(double) Config.HIGTH/2);
-        TextField zAxisTextField = axisTextField((double) Config.WIDTH/20+400,(double) Config.HIGTH/2);
+        TextField xAxisTextField = axisTextField((double) Config.WIDTH/20,(double) Config.HIGH /2);
+        TextField yAxisTextField = axisTextField((double) Config.WIDTH/20+200,(double) Config.HIGH /2);
+        TextField zAxisTextField = axisTextField((double) Config.WIDTH/20+400,(double) Config.HIGH /2);
 
-        Text xAxisText = axisText((double) Config.WIDTH/20,(double) Config.HIGTH/2-10,0.0);
-        Text yAxisText = axisText((double) Config.WIDTH/20+200,(double) Config.HIGTH/2-10,0.0);
-        Text zAxisText = axisText((double) Config.WIDTH/20+400,(double) Config.HIGTH/2-10,0.0);
+        Text xAxisText = axisText((double) Config.WIDTH/20,(double) Config.HIGH /2-10,0.0);
+        Text yAxisText = axisText((double) Config.WIDTH/20+200,(double) Config.HIGH /2-10,0.0);
+        Text zAxisText = axisText((double) Config.WIDTH/20+400,(double) Config.HIGH /2-10,0.0);
 
         xAxisTextField.textProperty().addListener((observable) -> {
             try {
@@ -97,17 +97,17 @@ public class SettingWindowToPointGraph extends Application {
         Text modelText = new Text();
         modelText.setText("Модели");
         modelText.setLayoutX((double) Config.WIDTH /20);
-        modelText.setLayoutY((double) Config.HIGTH/10-5);
+        modelText.setLayoutY((double) Config.HIGH /10-5);
 
 
         Text axisSetkaText = new Text();
         axisSetkaText.setText("Отображение сетки");
         axisSetkaText.setLayoutX((double) Config.WIDTH /20+20);
-        axisSetkaText.setLayoutY((double) Config.HIGTH/4.3);
+        axisSetkaText.setLayoutY((double) Config.HIGH /4.3);
 
         Text medianParametrText = new Text();
         medianParametrText.setLayoutX((double) Config.WIDTH /20+170);
-        medianParametrText.setLayoutY((double) Config.HIGTH/3.1);
+        medianParametrText.setLayoutY((double) Config.HIGH /3.1);
 
         Slider medianParametrSlider = new Slider();
         medianParametrSlider.setVisible(false);
@@ -118,29 +118,28 @@ public class SettingWindowToPointGraph extends Application {
             medianParametrText.setText(String.valueOf(smoothMedianParametr));
         });
         medianParametrSlider.setLayoutX((double) Config.WIDTH/20+200);
-        medianParametrSlider.setLayoutY((double) Config.HIGTH/3.5);
+        medianParametrSlider.setLayoutY((double) Config.HIGH /3.5);
 
 
         Text aproksimatonFText = new Text();
         aproksimatonFText.setText("Функция апроксимации");
         aproksimatonFText.setLayoutX((double) Config.WIDTH /20+20);
-        aproksimatonFText.setLayoutY((double) Config.HIGTH/3.1);
+        aproksimatonFText.setLayoutY((double) Config.HIGH /3.1);
 
         Text axisParametrChanges = new Text();
         axisParametrChanges.setText("Изменение параметров оссей");
         axisParametrChanges.setLayoutX((double) Config.WIDTH /20+20);
-        axisParametrChanges.setLayoutY((double) Config.HIGTH/2.45);
+        axisParametrChanges.setLayoutY((double) Config.HIGH /2.45);
 
 
 
         CheckBox axisSetkaCheckBox = new CheckBox();
         axisSetkaCheckBox.selectedProperty().addListener(observable -> {setka = axisSetkaCheckBox.isSelected();});
         axisSetkaCheckBox.setLayoutX((double) Config.WIDTH/20);
-        axisSetkaCheckBox.setLayoutY((double) Config.HIGTH/5);
+        axisSetkaCheckBox.setLayoutY((double) Config.HIGH /5);
 
         CheckBox aproksimationFCheckBox = new CheckBox();
         aproksimationFCheckBox.selectedProperty().addListener(observable -> {
-            aproksimation = aproksimationFCheckBox.isSelected();
             medianParametrSlider.setVisible(aproksimationFCheckBox.isSelected());
             medianParametrText.setText("");
             if(!aproksimationFCheckBox.isSelected()) {
@@ -149,7 +148,7 @@ public class SettingWindowToPointGraph extends Application {
 
         });
         aproksimationFCheckBox.setLayoutX((double) Config.WIDTH/20);
-        aproksimationFCheckBox.setLayoutY((double) Config.HIGTH/3.5);
+        aproksimationFCheckBox.setLayoutY((double) Config.HIGH /3.5);
 
 
         CheckBox axisParametrChangesCheckBox = new CheckBox();
@@ -163,7 +162,7 @@ public class SettingWindowToPointGraph extends Application {
             zAxisTextField.setVisible(axisParametrChangesCheckBox.isSelected());
         });
         axisParametrChangesCheckBox.setLayoutX((double) Config.WIDTH/20);
-        axisParametrChangesCheckBox.setLayoutY((double) Config.HIGTH/2.7);
+        axisParametrChangesCheckBox.setLayoutY((double) Config.HIGH /2.7);
 
 
 
@@ -174,12 +173,12 @@ public class SettingWindowToPointGraph extends Application {
         fileText.setText("Файлы");
         fileText.setVisible(false);
         fileText.setLayoutX((double) Config.WIDTH - ((double) Config.WIDTH /3));
-        fileText.setLayoutY((double) Config.HIGTH/10-5);
+        fileText.setLayoutY((double) Config.HIGH /10-5);
 
 
         Text errorText = new Text();
         errorText.setLayoutX((double) Config.WIDTH - ((double) Config.WIDTH /4));
-        errorText.setLayoutY((double) Config.HIGTH /1.4);
+        errorText.setLayoutY((double) Config.HIGH /1.4);
         errorText.setFill(Color.RED);
         errorText.setVisible(false);
         errorText.setText("Ошибка компиляции модели");
@@ -200,7 +199,7 @@ public class SettingWindowToPointGraph extends Application {
             }
         });
         button.setLayoutX((double) Config.WIDTH - ((double) Config.WIDTH /6));
-        button.setLayoutY((double) Config.HIGTH /1.3);
+        button.setLayoutY((double) Config.HIGH /1.3);
 
 
 
@@ -234,7 +233,7 @@ public class SettingWindowToPointGraph extends Application {
         ChoiceBox<String> pointGraphChoiceBoxFile = new ChoiceBox<>(FXCollections.observableArrayList(fileList));
         pointGraphChoiceBoxFile.setVisible(false);
         pointGraphChoiceBoxFile.setLayoutX((double) Config.WIDTH - ((double) Config.WIDTH /3));
-        pointGraphChoiceBoxFile.setLayoutY((double) Config.HIGTH /10);
+        pointGraphChoiceBoxFile.setLayoutY((double) Config.HIGH /10);
 
         pointGraphChoiceBoxFile.getSelectionModel().selectedIndexProperty().addListener((observableValue, oldV, newV) -> {
 
@@ -248,12 +247,12 @@ public class SettingWindowToPointGraph extends Application {
                 try {
                     this.typeOfPointGraph = presenter.getPointGrahpFile(fileList.get((Integer) newV));
 
-                    this.xMin = typeOfPointGraph.getxMin();
-                    this.xMax = typeOfPointGraph.getxMax();
-                    this.yMin = typeOfPointGraph.getyMin();
-                    this.yMax = typeOfPointGraph.getyMax();
-                    this.zMin = typeOfPointGraph.getzMin();
-                    this.zMax = typeOfPointGraph.getzMax();
+                    this.xMin = typeOfPointGraph.getXMin();
+                    this.xMax = typeOfPointGraph.getXMax();
+                    this.yMin = typeOfPointGraph.getYMin();
+                    this.yMax = typeOfPointGraph.getYMax();
+                    this.zMin = typeOfPointGraph.getZMin();
+                    this.zMax = typeOfPointGraph.getZMax();
 
                     xAxisText.setText(Math.abs(xMax)+Math.abs(xMin)+"");
                     yAxisText.setText(Math.abs(yMax)+Math.abs(yMin)+"");
@@ -269,7 +268,7 @@ public class SettingWindowToPointGraph extends Application {
 
         ChoiceBox<String> pointGraphChoiceBox = new ChoiceBox<>(FXCollections.observableArrayList(list));
         pointGraphChoiceBox.setLayoutX((double) Config.WIDTH /20);
-        pointGraphChoiceBox.setLayoutY((double) Config.HIGTH /10);
+        pointGraphChoiceBox.setLayoutY((double) Config.HIGH /10);
         pointGraphChoiceBox.getSelectionModel().selectedIndexProperty().addListener((observableValue, oldV, newV) -> {
             if(newV.equals(0)){
 
@@ -285,14 +284,14 @@ public class SettingWindowToPointGraph extends Application {
 
                 pointGraphChoiceBoxFile.setVisible(false);
                 fileText.setVisible(false);
-                this.typeOfPointGraph = presenter.getGraphs().get((Integer) newV-1);
+                this.typeOfPointGraph = presenter.getGraph(presenter.getGraphs().get((Integer) newV-1));
 
-                this.xMin = typeOfPointGraph.getxMin();
-                this.xMax = typeOfPointGraph.getxMax();
-                this.yMin = typeOfPointGraph.getyMin();
-                this.yMax = typeOfPointGraph.getyMax();
-                this.zMin = typeOfPointGraph.getzMin();
-                this.zMax = typeOfPointGraph.getzMax();
+                this.xMin = typeOfPointGraph.getXMin();
+                this.xMax = typeOfPointGraph.getXMax();
+                this.yMin = typeOfPointGraph.getYMin();
+                this.yMax = typeOfPointGraph.getYMax();
+                this.zMin = typeOfPointGraph.getZMin();
+                this.zMax = typeOfPointGraph.getZMax();
 
                 xAxisText.setText(Math.abs(xMax)+Math.abs(xMin)+"");
                 yAxisText.setText(Math.abs(yMax)+Math.abs(yMin)+"");
@@ -305,7 +304,7 @@ public class SettingWindowToPointGraph extends Application {
         group.getChildren().addAll(pointGraphChoiceBoxFile);
 
 
-        Scene scene = new Scene(group, Config.WIDTH, Config.HIGTH, true, SceneAntialiasing.BALANCED);
+        Scene scene = new Scene(group, Config.WIDTH, Config.HIGH, true, SceneAntialiasing.BALANCED);
         scene.setFill(Color.SILVER);
 
 
@@ -315,7 +314,7 @@ public class SettingWindowToPointGraph extends Application {
     }
 
     public void change(Stage stage) throws IOException {
-        HelloApplication application = new HelloApplication(typeOfPointGraph, setka, aproksimation,smoothMedianParametr,xParametr,yParametr,zParametr);
+        WorkWindow application = new WorkWindow(typeOfPointGraph, setka,smoothMedianParametr,xParametr,yParametr,zParametr);
         System.out.println(xMin+" "+xMax+" "+xParametr+" "+yMin+" "+yMax+" "+yParametr+" "+zMin+" "+zMax+" "+yParametr);
         application.start(stage);
 
@@ -341,5 +340,13 @@ public class SettingWindowToPointGraph extends Application {
         axisText.setText(value+"");
         axisText.setVisible(false);
         return axisText;
+    }
+
+    private Text simpleText(String text, double xPosition, double yPosition) {
+        Text modelText = new Text();
+        modelText.setText(text);
+        modelText.setLayoutX(xPosition);
+        modelText.setLayoutY(yPosition);
+        return modelText;
     }
 }

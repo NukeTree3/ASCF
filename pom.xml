@@ -78,7 +78,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                com.nuketree3.example.testtoascf/com.nuketree3.example.testtoascf.view.HelloApplication
+                                com.nuketree3.example.testtoascf/com.nuketree3.example.testtoascf.view.WorkWindow
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>

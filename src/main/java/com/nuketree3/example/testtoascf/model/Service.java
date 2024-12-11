@@ -1,6 +1,8 @@
 package com.nuketree3.example.testtoascf.model;
 
 import com.nuketree3.example.testtoascf.model.axiscube.AxisCube;
+import com.nuketree3.example.testtoascf.model.emuns.PointGraphType;
+import com.nuketree3.example.testtoascf.model.factory.PointGraphFactory;
 import com.nuketree3.example.testtoascf.model.fileloader.FileRead;
 import com.nuketree3.example.testtoascf.model.graph.*;
 import com.nuketree3.example.testtoascf.model.plane.Plane;
@@ -8,31 +10,23 @@ import javafx.scene.Group;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Service {
 
     private PointGraphAbstract graph;
     private final FileRead fileRead;
-    private ArrayList<PointGraphAbstract> graphs;
+    private ArrayList<PointGraphType> graphs;
+    private PointGraphFactory graphFactory;
 
     public Service(){
         this.graph = new PointGraph();
         fileRead = new FileRead();
-
-        graphs = new ArrayList<>();
-
-        graphs.add(new PointGraphOneWaves());
-        graphs.add(new PointGraphRandom());
-        graphs.add(new PointGraphSaddle());
-        graphs.add(new PointGraphSambrero());
-        graphs.add(new PointGraphTable());
-        graphs.add(new PointGraphUnknow());
-        graphs.add(new PointGraphWaves());
-
-
+        graphFactory = new PointGraphFactory();
+        graphs = new ArrayList<>(Arrays.asList(PointGraphType.values()));
     }
 
-    public ArrayList<PointGraphAbstract> getGraphs(){
+    public ArrayList<PointGraphType> getGraphs(){
         return graphs;
     }
 
@@ -40,8 +34,8 @@ public class Service {
         return fileRead.getFileList();
     }
 
-    public PointGraphAbstract getPointGraph(int num) {
-        return graphs.get(num);
+    public PointGraphAbstract getGraph(PointGraphType type){
+        return graphFactory.createPointGraph(type);
     }
 
     public PointGraphAbstract getPointGrahpFile(String fileName) throws FileNotFoundException {
@@ -57,13 +51,8 @@ public class Service {
         return axisCube.returnCubeWithAxis(xMin, xMax, yMin, yMax, zMin, zMax);
     }
 
-    public Group get3dGraph(PointGraphAbstract graph, double xParametr, double yParametr, double zParametr){
+    public Group get3dGraph(int smoothMedianParametr, PointGraphAbstract graph, double xParametr, double yParametr, double zParametr){
         Plane plane = new Plane(graph);
-        return plane.generatePlane(xParametr, yParametr, zParametr);
-    }
-
-    public Group get3dGraphWithSmoothMedian(int smoothMedianParametr, PointGraphAbstract graph, double xParametr, double yParametr, double zParametr){
-        Plane plane = new Plane(graph);
-        return plane.getPlaneWithSmoothMedian(smoothMedianParametr,xParametr, yParametr, zParametr);
+        return plane.generatePlane(smoothMedianParametr, xParametr, yParametr, zParametr);
     }
 }

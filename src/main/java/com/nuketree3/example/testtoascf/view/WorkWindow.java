@@ -1,8 +1,6 @@
 package com.nuketree3.example.testtoascf.view;
 
-import com.nuketree3.example.testtoascf.model.axiscube.AxisCube;
 import com.nuketree3.example.testtoascf.model.graph.*;
-import com.nuketree3.example.testtoascf.model.plane.Plane;
 
 import com.nuketree3.example.testtoascf.presenter.Presenter;
 import javafx.application.Application;
@@ -20,13 +18,21 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class HelloApplication extends Application {
+public class WorkWindow extends Application {
     private final PointGraphAbstract pointGraph;
     private Presenter presenter;
-    private Scene scene;
 
     private final boolean setka;
-    private final boolean aproksimation;
+
+    private final double OFFSET = 5.0;
+    private final double ROTATION = 5.0;
+    private final double ZOOM = 5.0;
+
+    private final double FAR_CLIP = 100000.0;
+
+    private final double CAMERA_X_START_POSITION = 0.0;
+    private final double CAMERA_Y_START_POSITION = 0.0;
+    private final double CAMERA_Z_START_POSITION = - 500.0;
 
     private double anchorX;
     private double anchorY;
@@ -42,10 +48,9 @@ public class HelloApplication extends Application {
     private final double xParameter;
     private final double zParameter;
 
-    public HelloApplication(PointGraphAbstract graph, boolean setka, boolean aproksimation, int smoothMedianParametr, double xParameter, double yParameter, double zParameter) {
+    public WorkWindow(PointGraphAbstract graph, boolean setka, int smoothMedianParametr, double xParameter, double yParameter, double zParameter) {
         this.pointGraph = graph;
         this.setka = setka;
-        this.aproksimation = aproksimation;
         this.smoothMedianParametr = smoothMedianParametr;
         this.xParameter = xParameter;
         this.yParameter = yParameter;
@@ -56,41 +61,29 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
-        presenter.get3dGraph(pointGraph, xParameter, yParameter, zParameter);
-
-//        AxisCube axisCube = new AxisCube();
-//        Group group = axisCube.returnCube(-150,100,-100,100,-100,100);
-
         Group group;
 
-
-        if(aproksimation) {
-            group = presenter.get3dGraphWithSmoothMedian(pointGraph, smoothMedianParametr, xParameter, yParameter, zParameter);
-        }else {
-            group = presenter.get3dGraph(pointGraph, xParameter, yParameter, zParameter);
-        }
+        group = presenter.get3dGraph(smoothMedianParametr, pointGraph, xParameter, yParameter, zParameter);
 
         if(setka) {
-            System.out.println(pointGraph.getxMin()*xParameter +" "+ pointGraph.getxMax()*xParameter +" "+ pointGraph.getyMin()*yParameter +" "+ pointGraph.getyMax()*yParameter +" "+ pointGraph.getzMin()*zParameter +" "+ pointGraph.getzMax()*zParameter);
-            group.getChildren().add(presenter.getAxisCube(pointGraph.getxMin()*xParameter, pointGraph.getxMax()*xParameter, pointGraph.getyMin()*yParameter, pointGraph.getyMax()*yParameter, pointGraph.getzMin()*zParameter, pointGraph.getzMax()*zParameter));
-//            AxisCube axisCube = new AxisCube();
-//            group.getChildren().add(axisCube.returnCubeWithAxis(pointGraph.getxMin(), pointGraph.getxMax(), pointGraph.getyMin(), pointGraph.getyMax(), pointGraph.getzMin(), pointGraph.getzMax()));
+            System.out.println(pointGraph.getXMin()*xParameter +" "+ pointGraph.getXMax()*xParameter +" "+ pointGraph.getYMin()*yParameter +" "+ pointGraph.getYMax()*yParameter +" "+ pointGraph.getZMin()*zParameter +" "+ pointGraph.getZMax()*zParameter);
+            group.getChildren().add(presenter.getAxisCube(pointGraph.getXMin()*xParameter, pointGraph.getXMax()*xParameter, pointGraph.getYMin()*yParameter, pointGraph.getYMax()*yParameter, pointGraph.getZMin()*zParameter, pointGraph.getZMax()*zParameter));
         }
 
 
         Camera camera = new PerspectiveCamera(true);
-        Scene scene = new Scene(group, Config.WIDTH, Config.HIGTH, true,  SceneAntialiasing.BALANCED);
+        Scene scene = new Scene(group, Config.WIDTH, Config.HIGH, true,  SceneAntialiasing.BALANCED);
         scene.setFill(Color.SILVER);
         scene.setCamera(camera);
 
         camera.setRotate(180);
 
-        camera.translateXProperty().set(0);
-        camera.translateYProperty().set(0);
-        camera.translateZProperty().set(-500);
+        camera.translateXProperty().set(CAMERA_X_START_POSITION);
+        camera.translateYProperty().set(CAMERA_Y_START_POSITION);
+        camera.translateZProperty().set(CAMERA_Z_START_POSITION);
 
         camera.setNearClip(1);
-        camera.setFarClip(100000);
+        camera.setFarClip(FAR_CLIP);
 
         initMouseControl(group, scene, stage);
 
@@ -99,28 +92,28 @@ public class HelloApplication extends Application {
         stage.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
             switch (event.getCode()){
                 case R:
-                    camera.translateZProperty().set(camera.getTranslateZ() - 5);
+                    camera.translateZProperty().set(camera.getTranslateZ() - ZOOM);
                     break;
                 case F:
-                    camera.translateZProperty().set(camera.getTranslateZ() + 5);
+                    camera.translateZProperty().set(camera.getTranslateZ() + ZOOM);
                     break;
                 case D:
-                    camera.translateXProperty().set(camera.getTranslateX() - 5);
+                    camera.translateXProperty().set(camera.getTranslateX() - OFFSET);
                     break;
                 case A:
-                    camera.translateXProperty().set(camera.getTranslateX() + 5);
+                    camera.translateXProperty().set(camera.getTranslateX() + OFFSET);
                     break;
                 case W:
-                    camera.translateYProperty().set(camera.getTranslateY() + 5);
+                    camera.translateYProperty().set(camera.getTranslateY() + OFFSET);
                     break;
                 case S:
-                    camera.translateYProperty().set(camera.getTranslateY() - 5);
+                    camera.translateYProperty().set(camera.getTranslateY() - OFFSET);
                     break;
                 case Q:
-                    camera.rotateProperty().set(camera.getRotate()+5);
+                    camera.rotateProperty().set(camera.getRotate()+ROTATION);
                     break;
                 case E:
-                    camera.rotateProperty().set(camera.getRotate()-5);
+                    camera.rotateProperty().set(camera.getRotate()-ROTATION);
                     break;
                 case M:
                     SettingWindowToPointGraph  settingWindowToPointGraph = new SettingWindowToPointGraph();
@@ -161,10 +154,5 @@ public class HelloApplication extends Application {
             double movemetn = event.getDeltaY();
             group.translateZProperty().set(group.getTranslateZ() - movemetn);
         });
-    }
-
-
-    public static void main(String[] args) {
-        launch();
     }
 }

@@ -11,8 +11,9 @@ public class PointGraph extends PointGraphAbstract{
         nameGraph = "PointGraph";
     }
 
-
-
+    /**
+     * setDefoult - метод, который сбрасывает граф до плоскости
+     */
     @Override
     public void setDefoult() {
         for (int x = 0; x < Math.abs(xMax)+Math.abs(xMin); x++) {
@@ -22,6 +23,9 @@ public class PointGraph extends PointGraphAbstract{
         }
     }
 
+    /**
+     * checkGraph - метод перепроверки на максимальное и минимальное значения y
+     */
     public void checkGraph() {
         for (int x = 0; x < Math.abs(xMax)+Math.abs(xMin); x++) {
             for (int z = 0; z < Math.abs(zMax)+Math.abs(zMin); z++) {

@@ -1,8 +1,8 @@
 package com.nuketree3.example.testtoascf.model.graph;
 
-public class PointGraphUnknow extends PointGraphAbstract {
+public class PointGraphUnknown extends PointGraphAbstract {
 
-    public PointGraphUnknow() {
+    public PointGraphUnknown() {
 
         nameGraph = "PointGraphUnknow";
 
